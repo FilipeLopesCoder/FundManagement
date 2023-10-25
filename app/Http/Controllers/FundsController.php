@@ -34,7 +34,7 @@ class FundsController extends Controller
         $data = [];
         $where = ['fund_id' => $id];
         foreach (Funds::where($where)->get() as $index => $fund) {
-            $data[$index] = $fund->name;
+            $data[$index] = $fund;
         }
 
         return response()->json($data, 200);
@@ -61,6 +61,45 @@ class FundsController extends Controller
             
             $data = $newFund;
 
+            return response()->json($data, 200);
+        }catch(Exception $caught){
+            return response()->json($caught->getMessage(), 500);
+        }
+    }
+
+    public function edit(Request $request, string $id): JsonResponse
+    {
+        try{
+            if( empty($id) ){
+                throw new Exception('An fund id must be informed');
+            }
+
+            $fund = Funds::find($id);
+            
+            if( empty($fund) ){
+                throw new Exception('Fund not found. Verify the id informed');
+            }
+
+            $changed = [];
+
+            $fields = $request->input('fields');
+
+            if( !empty($fields[0]['name']) ){
+                $fund->name = $fields[0]['name'];
+                array_push($changed, ['name' => $fields[0]['name']] );
+            }
+            if( !empty($fields[0]['startYear']) ){
+                $fund->startYear = $fields[0]['startYear'];
+                array_push($changed, ['startYear' => $fields[0]['startYear']] );
+            }
+            if( !empty($fields[0]['alias']) ){
+                $fund->alias = $fields[0]['alias'];
+                array_push($changed, ['alias' => $fields[0]['alias']] );
+            }
+            
+            $fund->save();
+
+            $data = ["id" => $id, "changed" => $changed];
             return response()->json($data, 200);
         }catch(Exception $caught){
             return response()->json($caught->getMessage(), 500);

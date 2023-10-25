@@ -26,4 +26,5 @@ Route::middleware('auth:sanctum')->get('/funds', function (Request $request) {
 
 Route::get('/funds/', [FundsController::class, 'list']);
 Route::get('/funds/{id}', [FundsController::class, 'single']);
+Route::put('/funds/{id}', [FundsController::class, 'edit']);
 Route::post('/funds/create', [FundsController::class, 'create']);
