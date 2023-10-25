@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FundsController;
+use App\Http\Controllers\FundManagersController;
+use App\Http\Controllers\CompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +30,13 @@ Route::get('/funds/', [FundsController::class, 'list']);
 Route::get('/funds/{id}', [FundsController::class, 'single']);
 Route::put('/funds/{id}', [FundsController::class, 'edit']);
 Route::post('/funds/create', [FundsController::class, 'create']);
+
+Route::get('/fundmanagers/', [FundManagersController::class, 'list']);
+Route::get('/fundmanagers/{id}', [FundManagersController::class, 'single']);
+Route::put('/fundmanagers/{id}', [FundManagersController::class, 'edit']);
+Route::post('/fundmanagers/create', [FundManagersController::class, 'create']);
+
+Route::get('/companies/', [CompanyController::class, 'list']);
+Route::get('/company/{id}', [CompanyController::class, 'single']);
+Route::put('/company/{id}', [CompanyController::class, 'edit']);
+Route::post('/company/create', [CompanyController::class, 'create']);
