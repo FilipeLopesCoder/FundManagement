@@ -13,4 +13,5 @@ class Funds extends Model
 
     protected $primaryKey = 'fund_id';
 
+    protected $fillable = ['name','startYear','alias'];
 }
