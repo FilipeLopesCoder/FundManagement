@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\Funds;
 use App\Models\FundManagers;
+use App\Models\Company;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class FundsController extends Controller
 {
@@ -47,8 +49,14 @@ class FundsController extends Controller
     public function create(Request $request): JsonResponse
     {
         try{
-            if( !$request->input('name') || !$request->input('startYear') || !$request->input('alias')){
+            DB::beginTransaction();
+            if( !$request->input('name') || !$request->input('startYear') || !$request->input('alias') || !$request->input('fund_manager_id') ){
                 throw new Exception('incomplete fields.');
+            }
+
+            $fundManager = Company::find($request->input('fund_manager_id'));
+            if( empty($fundManager) ){
+                throw new Exception('Fund Manager not found. Verify the id informed');
             }
 
             $fundData = [
@@ -62,11 +70,24 @@ class FundsController extends Controller
             if( !$newFund ){
                 throw new Exception('the include of the new fund could not be completed.');
             }
+
+            $managerinsert = [
+                'company_id' => $request->input('fund_manager_id'),
+                'fund_id' => $newFund['fund_id']
+            ];
+            $newmanager = FundManagers::create($managerinsert);
+            if( !$newmanager ){
+                throw new Exception('the include of the new fund manager could not be completed.');
+            }
+
+            $newFund['FundManager'] = $newmanager;
             
             $data = $newFund;
 
+            DB::commit();
             return response()->json($data, 200);
         }catch(Exception $caught){
+            DB::rollBack();
             return response()->json($caught->getMessage(), 500);
         }
     }
