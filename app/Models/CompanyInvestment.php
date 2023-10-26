@@ -12,4 +12,6 @@ class CompanyInvestment extends Model
     protected $table = 'CompanyInvestment';
 
     protected $primaryKey = 'companyinvestment_id';
+
+    protected $fillable = ['company_id','fund_id'];
 }

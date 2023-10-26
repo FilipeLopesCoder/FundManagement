@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FundsController;
 use App\Http\Controllers\FundManagersController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CompanyInvestmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,3 +41,8 @@ Route::get('/companies/', [CompanyController::class, 'list']);
 Route::get('/company/{id}', [CompanyController::class, 'single']);
 Route::put('/company/{id}', [CompanyController::class, 'edit']);
 Route::post('/company/create', [CompanyController::class, 'create']);
+
+Route::get('/companyinvestments/', [CompanyInvestmentController::class, 'list']);
+Route::get('/companyinvestment/{id}', [CompanyInvestmentController::class, 'single']);
+Route::put('/companyinvestment/{id}', [CompanyInvestmentController::class, 'edit']);
+Route::post('/companyinvestment/create', [CompanyInvestmentController::class, 'create']);
