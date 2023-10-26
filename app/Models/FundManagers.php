@@ -12,4 +12,6 @@ class FundManagers extends Model
     protected $table = 'FundManagers';
 
     protected $primaryKey = 'fundmanager_id';
+
+    protected $fillable = ['company_id','fund_id'];
 }

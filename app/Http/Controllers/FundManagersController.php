@@ -36,16 +36,16 @@ class FundManagersController extends Controller
     public function create(Request $request): JsonResponse
     {
         try{
-            if( !$request->input('name') || !$request->input('startYear') || !$request->input('alias')){
+            if( !$request->input('fund_id') || !$request->input('company_id')){
                 throw new Exception('incomplete fields.');
             }
 
             $fundManagers = [
-                'fund_id' => $request->input('name'),
-                'company_id' => $request->input('startYear'),
+                'fund_id' => $request->input('fund_id'),
+                'company_id' => $request->input('company_id'),
             ];
 
-            $newFund = Funds::create($fundManagers);
+            $newFund = FundManagers::create($fundManagers);
             
             if( !$newFund ){
                 throw new Exception('the include of the new fund could not be completed.');

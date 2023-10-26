@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\Funds;
+use App\Models\FundManagers;
 use Exception;
 
 class FundsController extends Controller
@@ -23,6 +24,9 @@ class FundsController extends Controller
         // if( $filters[0]['manager'] ){ array_push($where, ['manager' , 'LIKE', '%' . $filters[0]['manager'] . '%']); }
 
         foreach (Funds::where($where)->get() as $index => $fund) {
+            $fundmanagerwhere = ['fund_id' => $fund['fund_id'] ];
+            $manager = FundManagers::where($fundmanagerwhere)->get();
+            $fund['FundManagers'] = $manager;
             $funds[$index] = $fund;
         }
 
